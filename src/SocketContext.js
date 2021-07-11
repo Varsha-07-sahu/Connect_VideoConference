@@ -14,6 +14,7 @@ const ContextProvider = ({ children }) => {
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
     const [name, setName] = useState('');
+    const [showJoin, setShowJoin] = useState(true);
     // const confi = {}
     // const [video, setVideo] = useState(false);
     const [config, setConfig] = useState({});  //for video and audio
@@ -22,13 +23,14 @@ const ContextProvider = ({ children }) => {
     const userVideo = useRef();
     const connectionRef = useRef();
 
-    useEffect(()=>{
+
+    useEffect(() => {
         console.log("context hosting in useeffect")
         socket.on('me', (id) => { console.log("update me id", id); setMe(id); });
         socket.on('calluser', ({ from, name: callerName, signal }) => {
-        console.log("CallUser function");
-        setCall({ isReceivedCall: true, from, name: callerName, signal })
-});
+            console.log("CallUser function");
+            setCall({ isReceivedCall: true, from, name: callerName, signal })
+        });
     }, []);
 
     useEffect(() => {
@@ -58,7 +60,7 @@ const ContextProvider = ({ children }) => {
         });
         peer.on('connect', () => {
             console.log("connection established")
-        })
+        });
         peer.signal(call.signal);
 
         connectionRef.current = peer;
@@ -86,17 +88,22 @@ const ContextProvider = ({ children }) => {
         });
         peer.on('connect', () => {
             console.log("connection established")
-        })
+        });
         connectionRef.current = peer;
     }
 
     const leaveCall = () => {
         console.log("leave call");
+
         setCallEnded(true);
-
+        // if (connectionRef)
         connectionRef.current.destroy();
-
+        // peer.destroy([err]);
         window.location.reload();
+        // peer.on('close', () => {
+        //     console.log("connention close");
+        // });
+
     }
 
     return (
@@ -110,6 +117,8 @@ const ContextProvider = ({ children }) => {
             setName,
             callEnded,
             me,
+            showJoin,
+            setShowJoin,
             config,
             setConfig,
             callId,

@@ -13,6 +13,8 @@ import { SocketContext } from '../../SocketContext';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import { Assignment } from '@material-ui/icons';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -32,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DialogBox(props) {
     const classes = useStyles(props);
+    const { name, me, showJoin, setShowJoin } = useContext(SocketContext);
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -41,15 +44,26 @@ export default function DialogBox(props) {
     const handleClose = () => {
         setOpen(false);
     };
-    const { name, me } = useContext(SocketContext);
+
+    const handleJoin = () => {
+        setShowJoin(false);
+    }
+
 
 
 
     return (
         <Box className={classes.button}>
-            <Button variant="contained" color="secondary" onClick={handleClickOpen}>
-                New meeting
-            </Button>
+            {showJoin ? (
+                <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+                    New meeting
+                </Button>
+            ) : (
+                <IconButton color="primary" onChange={handleClickOpen} className={classes.button} aria-label="Call Details">
+                    <MoreVertIcon fontSize="large" />
+                </IconButton>
+            )}
+
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Here's is the ID to your meeting </DialogTitle>
                 <DialogContent>
@@ -63,24 +77,19 @@ export default function DialogBox(props) {
                             Copy Meeting ID
                         </Button>
                     </CopyToClipboard>
-                    {/* <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                    /> */}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Link to="/Join">
-                        <Button color="primary">
-                            Join
-                        </Button>
-                    </Link>
+                    {showJoin && (
+                        <Link to="/Join">
+                            <Button color="primary" onChange={handleJoin}>
+                                Join
+                            </Button>
+                        </Link>
+                    )}
+
                 </DialogActions>
             </Dialog>
         </Box>

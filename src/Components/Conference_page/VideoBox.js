@@ -14,6 +14,8 @@ import { useContext, useEffect } from 'react';
 import { SocketContext } from '../../SocketContext';
 import Notification_toAcceptCall from '../Permission/Notification_toAcceptCall';
 
+import DialogBox from '../Start_page/DialogBox';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "#282c34",
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     Video_Container: {
         height: "90%",
-        width: "100%",
+        // width: "100%",
     },
     Option_container: {
         height: "10%",
@@ -30,17 +32,22 @@ const useStyles = makeStyles((theme) => ({
     },
     SenderVideo_container: {
         width: "80%",
-        height: "100%",
+        height: "90%",
+        border: "1",
+        borderRadius: "5%",
+        color: "white",
+        marginLeft: "8%",
         // backgroundColor: "red",
     },
     MyVideo_container: {
-        // width: "20%",
-        // height: "25%",
-        backgroundColor: "black",
-        // height: "50%",
-        // width: "40%",
+
+        color: "white",
+        // backgroundColor: "black",
+
         border: "1",
-        // borderRadius: "5%",
+        borderRadius: "2%",
+
+
         overflow: "hidden",
         [theme.breakpoints.down('xs')]: {
             width: "80%",
@@ -48,10 +55,14 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     fullScreen: {
-        height: "100%",
-        width: "100%",
+        marginLeft: "10%",
+        height: "90%",
+        width: "80%",
     },
     halfScreen: {
+        position: "absolute",
+        bottom: "14%",
+        right: "4%",
         height: "25%",
         width: "20%",
     },
@@ -61,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
         height: "100%",
         // width: "95%",
         marginLeft: "10px",
+        color: "white",
     },
     SenderVideo: {
         backgroundColor: "black",
@@ -71,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
         // height: "50%",
         // width: "40%",
         border: "1",
-        // borderRadius: "5%",
+        borderRadius: "5%",
         overflow: "hidden",
         [theme.breakpoints.down('xs')]: {
             width: "80%",
@@ -101,44 +113,35 @@ function VideoBox(props) {
             <Grid
                 container
                 direction="row"
+                justifyContent="space-evenly"
+                alignItems="center"
+
                 className={classes.Video_Container}
             >
                 {
                     callAccepted && !callEnded && (
-                        <Grid
-                            className={classes.SenderVideo_container}>
-                            <Box
-                                className={classes.SenderVideo}
-                                border={1}
-                                borderColor="grey.500"
-                                borderRadius="borderRadius"
-                                color="white">
-                                <Typography variant="h5" gutterBottom>{call ? call.name : 'UserName'}</Typography>
-                                <video playsInline ref={userVideo} autoPlay className={classes.video}></video>
-                            </Box>
+                        <Grid className={classes.SenderVideo_container}>
 
+                            <video playsInline height="100%" width="100%" ref={userVideo} autoPlay className={classes.video}></video>
+
+                            <Grid>
+                                <Typography variant="h5" gutterBottom>{call ? call.name : 'UserName'}</Typography>
+                            </Grid>
                         </Grid>
                     )
                 }
                 {
-                    // class = "c1 c2"
                     stream && (
                         <Grid
-                            className={classes.MyVideo_container, (!callAccepted ? classes.fullScreen : classes.halfScreen)}>
-                            {/* <Box
-                                className={classes.MyVideo}
-                                border={1}
-                                borderColor="grey.500"
-                                borderRadius="borderRadius"
-                                color="white">
-                                
-                            </Box> */}
+                            className={classes.MyVideo_container + " " + (!callAccepted || callEnded ? classes.fullScreen : classes.halfScreen)}>
 
-                            <video muted ref={myVideo} autoPlay className={classes.video}></video>
-                            <Typography variant="h5" gutterBottom>{name || 'Name'}</Typography>
+                            <video muted ref={myVideo} height="100%" width="100%" autoPlay className={classes.video}></video>
+
+                            <Grid>
+                                <Typography color="white" variant="h5" gutterBottom>{"You"}</Typography>
+                            </Grid>
                         </Grid>
-                    )
-                }
+                    )}
 
             </Grid>
             <Grid
@@ -164,6 +167,9 @@ function VideoBox(props) {
                             <CallEndIcon fontSize="large" />
                         </IconButton>
                     </Link>
+
+                    <DialogBox />
+
                     {call != null && call.isReceivedCall && !callAccepted && (
                         <Notification_toAcceptCall />
                     )}
