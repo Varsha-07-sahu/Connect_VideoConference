@@ -1,24 +1,47 @@
-import logo from './logo.svg';
+import VideoBox from './Components/Conference_page/VideoBox';
+import Box from '@material-ui/core/Box';
 import './App.css';
+import { Container } from '@material-ui/core';
+import SignInSide from './Components/Sign_in_page/SignInSide';
+import Welcome_page from './Screens/Welcome_page';
+import JoiningPage from './Screens/JoiningPage';
+import PopUpGetId from './Components/Start_page/PopUpGetId';
+import DialogBox from './Components/Start_page/DialogBox';
+import { Route } from 'react-router-dom';
+import Notification_toAcceptCall from './Components/Permission/Notification_toAcceptCall';
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    // <Notification_toAcceptCall></Notification_toAcceptCall>
+    // <DialogBox></DialogBox>
+    // <PopUpGetId></PopUpGetId>
+    <div>
+      <Route path="/" exact >
+        <Welcome_page />
+      </Route>
+
+      <Route path="/Welcome">
+        <Welcome_page />
+      </Route>
+
+      <Route path="/Join" >
+        <JoiningPage />
+      </Route>
+
+      <Route path="/Connect">
+        <VideoBox />
+      </Route>
+
+      <Route path="*">
+        Error 404
+      </Route>
     </div>
+    // <SignInSide></SignInSide>
+    // 
+    // <JoiningPage />
+
   );
 }
 
