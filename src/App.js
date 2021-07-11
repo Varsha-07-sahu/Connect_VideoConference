@@ -30,7 +30,7 @@ function App() {
         <JoiningPage />
       </Route>
 
-      <Route path="/Connect">
+      <Route exact path="/Connect">
         <VideoBox />
       </Route>
 

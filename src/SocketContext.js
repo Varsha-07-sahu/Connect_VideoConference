@@ -96,10 +96,10 @@ const ContextProvider = ({ children }) => {
         console.log("leave call");
 
         setCallEnded(true);
-        // if (connectionRef)
-        connectionRef.current.destroy();
+        if (connectionRef.current)
+            connectionRef.current.destroy();
         // peer.destroy([err]);
-        window.location.reload();
+        // window.location.reload();
         // peer.on('close', () => {
         //     console.log("connention close");
         // });

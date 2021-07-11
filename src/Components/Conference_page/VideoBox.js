@@ -15,6 +15,7 @@ import { SocketContext } from '../../SocketContext';
 import Notification_toAcceptCall from '../Permission/Notification_toAcceptCall';
 
 import DialogBox from '../Start_page/DialogBox';
+import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -103,7 +104,11 @@ function VideoBox(props) {
         console.log("after setting ref");
         setConfig({ audio: true, video: true });
     }, [])
-
+    const handleCallEnd = () => {
+        // console.log("history ", props.history);
+        props.history.push("/")
+        leaveCall()
+    }
     return (
         <Grid
             container
@@ -161,12 +166,9 @@ function VideoBox(props) {
                     <IconButton color="primary" className={classes.button} aria-label="Turn Video off">
                         <VideocamIcon fontSize="large" />
                     </IconButton>
-
-                    <Link to="/Welcome">
-                        <IconButton color="secondary" className={classes.button} aria-label="End Call" onClick={leaveCall}>
-                            <CallEndIcon fontSize="large" />
-                        </IconButton>
-                    </Link>
+                    <IconButton color="secondary" className={classes.button} aria-label="End Call" onClick={handleCallEnd}>
+                        <CallEndIcon fontSize="large" />
+                    </IconButton>
 
                     <DialogBox />
 
@@ -182,5 +184,5 @@ function VideoBox(props) {
     );
 }
 
-export default VideoBox;
+export default withRouter(VideoBox);
 
