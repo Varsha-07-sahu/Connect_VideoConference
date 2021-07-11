@@ -10,20 +10,20 @@ import { useTheme } from '@material-ui/core/styles';
 import { SocketContext } from '../../SocketContext';
 import { Box, Grid } from '@material-ui/core';
 
-export default function Notification_toAcceptCall() {
-    const [open, setOpen] = React.useState(false);
+export default function Notification_toAcceptCall(props) {
+    // const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
 
-    const { answerCall, call, callAccepted } = useContext(SocketContext);
+    const { answerCall, } = useContext(SocketContext);
 
     return (
         <Grid>
@@ -32,13 +32,13 @@ export default function Notification_toAcceptCall() {
                     { handleClickOpen }
                 )
             } */}
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+            {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
                 Open responsive dialog
-            </Button>
+            </Button> */}
             <Dialog
                 // fullScreen={fullScreen}
-                open={open}
-                onClose={handleClose}
+                open={props.openPermissionBox}
+                onClose={props.onAdmitUser}
                 aria-labelledby="UserAcceptPermission"
             >
                 <DialogTitle id="responsive-dialog-title">{"User is Calling..."}</DialogTitle>
@@ -48,7 +48,7 @@ export default function Notification_toAcceptCall() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" onClick={handleClose} fullWidth color="secondary">
+                    <Button variant="contained" onClick={props.onAdmitUser} fullWidth color="secondary">
                         Deny
                     </Button>
                     <Button variant="contained" autoFocus onClick={answerCall} color="primary" fullWidth>

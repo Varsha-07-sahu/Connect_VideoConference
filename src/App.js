@@ -33,10 +33,10 @@ function App() {
       <Route exact path="/Connect">
         <VideoBox />
       </Route>
-
+      {/* 
       <Route path="*">
         Error 404
-      </Route>
+      </Route> */}
     </div>
     // <SignInSide></SignInSide>
     // 

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         height: "50%",
         width: "40%",
         border: "1",
-        borderRadius: "5%",
+        borderRadius: "8px",
         overflow: "hidden",
         [theme.breakpoints.down('xs')]: {
             width: "80%",
@@ -114,9 +114,9 @@ export default function JoiningPage(props) {
                         <VideocamIcon />
                     </IconButton>
                     <Link to="/connect">
-                        <Button variant="contained" onClick={()=> {
+                        <Button variant="contained" onClick={() => {
                             console.log("attempt to call", callId)
-                            if(callId) 
+                            if (callId)
                                 callUser(callId);
                         }} color="primary">
                             Join

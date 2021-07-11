@@ -13,7 +13,6 @@ import { SocketContext } from '../../SocketContext';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import { Assignment } from '@material-ui/icons';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,15 +34,15 @@ const useStyles = makeStyles((theme) => ({
 export default function DialogBox(props) {
     const classes = useStyles(props);
     const { name, me, showJoin, setShowJoin } = useContext(SocketContext);
-    const [open, setOpen] = React.useState(false);
+    // const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
 
     const handleJoin = () => {
         setShowJoin(false);
@@ -54,37 +53,40 @@ export default function DialogBox(props) {
 
     return (
         <Box className={classes.button}>
-            {showJoin ? (
+            {/* {showJoin && (
                 <Button variant="contained" color="secondary" onClick={handleClickOpen}>
                     New meeting
-                </Button>
-            ) : (
-                <IconButton color="primary" onChange={handleClickOpen} className={classes.button} aria-label="Call Details">
-                    <MoreVertIcon fontSize="large" />
-                </IconButton>
-            )}
+                </Button>)} */}
+            {/* // ) : (
+            //     <IconButton color="primary" onChange={handleClickOpen} className={classes.button} aria-label="Call Details">
+            //         <MoreVertIcon fontSize="large" />
+            //     </IconButton>
+            // )} */}
 
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={props.openCallInfo} onClose={props.onClosingDialogBox()} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Here's is the ID to your meeting </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         Hello {name},<br />
                         Copy this id and send it to people that you want to connect with.
+
                     </DialogContentText>
+
+                    {/* {console.log(me)} */}
                     <CopyToClipboard onCopy={() => { console.log("copied") }} text={me} className={classes.margin}>
-                        {/* {console.log(me)} */}
-                        <Button variant="contained" color="primary" fullWidth startIcon={<Assignment fontSize="large" />}>
+                        <Button variant="contained" color="primary" startIcon={<Assignment fontSize="large" />}>
                             Copy Meeting ID
                         </Button>
                     </CopyToClipboard>
+
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={props.onClosingDialogBox()} color="primary">
                         Cancel
                     </Button>
                     {showJoin && (
                         <Link to="/Join">
-                            <Button color="primary" onChange={handleJoin}>
+                            <Button color="primary" onChange={handleJoin && props.onClosingDialogBox()}>
                                 Join
                             </Button>
                         </Link>

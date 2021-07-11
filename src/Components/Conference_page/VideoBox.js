@@ -1,7 +1,5 @@
 import { Grid, Link } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import ReceiverVideo from './ReceiverVideo';
-import SenderVideo from './SenderVideo';
 import { makeStyles } from '@material-ui/core';
 import { whileStatement } from '@babel/types';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,6 +11,8 @@ import { borders } from '@material-ui/system';
 import { useContext, useEffect } from 'react';
 import { SocketContext } from '../../SocketContext';
 import Notification_toAcceptCall from '../Permission/Notification_toAcceptCall';
+import { useState } from 'react';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import DialogBox from '../Start_page/DialogBox';
 import { withRouter } from 'react-router-dom';
@@ -32,13 +32,17 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "white",
     },
     SenderVideo_container: {
-        width: "80%",
+        width: "75%",
         height: "90%",
         border: "1",
-        borderRadius: "5%",
+        borderRadius: "8px",
         color: "white",
-        marginLeft: "8%",
+        marginLeft: "2%",
         // backgroundColor: "red",
+        [theme.breakpoints.down('xs')]: {
+            width: "100%",
+            height: "85%",
+        },
     },
     MyVideo_container: {
 
@@ -46,13 +50,14 @@ const useStyles = makeStyles((theme) => ({
         // backgroundColor: "black",
 
         border: "1",
-        borderRadius: "2%",
+        borderRadius: "8px",
 
 
         overflow: "hidden",
         [theme.breakpoints.down('xs')]: {
             width: "80%",
             height: "80%",
+            marginRight: "4px",
         },
     },
     fullScreen: {
@@ -63,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     halfScreen: {
         position: "absolute",
         bottom: "14%",
-        right: "4%",
+        right: "2%",
         height: "25%",
         width: "20%",
     },
@@ -109,6 +114,20 @@ function VideoBox(props) {
         props.history.push("/")
         leaveCall()
     }
+
+    const [openPermissionBox, setOpenPermision] = useState(false);
+    const onAdmitUserHandler = () => {
+        setOpenPermision(false);
+    }
+
+    const [openCallInfo, setOpenCallInfo] = useState(false);
+    const openCallInfoHandler = () => {
+        setOpenCallInfo(true);
+    }
+    const closeCallInfoHandler = () => {
+        setOpenCallInfo(false);
+    }
+
     return (
         <Grid
             container
@@ -118,7 +137,7 @@ function VideoBox(props) {
             <Grid
                 container
                 direction="row"
-                justifyContent="space-evenly"
+
                 alignItems="center"
 
                 className={classes.Video_Container}
@@ -160,22 +179,37 @@ function VideoBox(props) {
 
                     className={classes.OptionsBox}>
                     <IconButton color="secondary" className={classes.button} aria-label="Turn Mic off">
-                        <MicIcon fontSize="large" />
+                        <MicIcon style={{ fontSize: 32 }} />
                     </IconButton>
 
                     <IconButton color="primary" className={classes.button} aria-label="Turn Video off">
-                        <VideocamIcon fontSize="large" />
+                        <VideocamIcon style={{ fontSize: 32 }} />
                     </IconButton>
                     <IconButton color="secondary" className={classes.button} aria-label="End Call" onClick={handleCallEnd}>
-                        <CallEndIcon fontSize="large" />
+                        <CallEndIcon style={{ fontSize: 32 }} />
                     </IconButton>
 
-                    <DialogBox />
+                    <IconButton color="primary" onClick={openCallInfoHandler} className={classes.button} aria-label="Call Details">
+                        <MoreVertIcon />
+                    </IconButton>
+                    {openCallInfo && (<DialogBox openCallInfo onClosingDialogBox={closeCallInfoHandler} />)
+                    }
+
+
 
                     {call != null && call.isReceivedCall && !callAccepted && (
-                        <Notification_toAcceptCall />
+                        <Notification_toAcceptCall
+                            openPermissionBox
+                            onAdmitUser={onAdmitUserHandler} />
                     )}
 
+
+                    {/* 
+                    {call != null && call.isReceivedCall && !callAccepted && setOpenPermision(true)}
+
+                    <Notification_toAcceptCall
+                        openPermissionBox
+                        onAdmitUser={onAdmitUserHandler} /> */}
                 </Grid>
 
             </Grid>

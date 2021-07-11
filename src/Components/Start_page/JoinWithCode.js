@@ -76,8 +76,8 @@ export default function JoinWithCode(props) {
 
                     <Link to="/Join">
                         <Button onClick={() => {
-                                // callUser(idToCall)
-                            }} color="primary">
+                            // callUser(idToCall)
+                        }} color="primary">
                             Join
                         </Button>
                     </Link>

@@ -88,6 +88,14 @@ export default function Welcome_page(props) {
     // }, [])
     const [idToCall, setIdToCall] = useState('');
     const classes = useStyles(props);
+
+    const [openCallInfo, setOpenCallInfo] = useState(false);
+    const openCallInfoHandler = () => {
+        setOpenCallInfo(true);
+    }
+    const closeCallInfoHandler = () => {
+        setOpenCallInfo(false);
+    }
     return (
         <Grid
             container
@@ -145,31 +153,13 @@ export default function Welcome_page(props) {
                             justifyContent="center"
                             alignItems="center"
                         >
-                            <DialogBox></DialogBox>
+                            <Button variant="contained" color="secondary" onClick={openCallInfoHandler}>
+                                New meeting
+                            </Button>
+                            {openCallInfo && (<DialogBox openCallInfo onClosingDialogBox={closeCallInfoHandler} />)}
+
                             <JoinWithCode></JoinWithCode>
                         </Grid>
-
-                        {/* OR
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="code"
-                            label="Code"
-                            type="password"
-                            id="code"
-                            autoComplete="current-password"
-                        />
-                        <Button
-                            type="submit"
-
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Join with a code
-                        </Button> */}
 
 
                     </form>
