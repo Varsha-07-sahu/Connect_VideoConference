@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function JoinWithCode(props) {
     const classes = useStyles(props);
-    const [idToCall, setIdToCall] = useState('');
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -43,7 +42,7 @@ export default function JoinWithCode(props) {
     const handleClose = () => {
         setOpen(false);
     };
-    const { name, callUser } = useContext(SocketContext);
+    const { name, callUser, callId, setCallId } = useContext(SocketContext);
 
 
     return (
@@ -64,8 +63,8 @@ export default function JoinWithCode(props) {
                         id="ID"
                         label="Enter meeting ID"
                         type="text"
-                        value={idToCall}
-                        onChange={(e) => setIdToCall(e.target.value)}
+                        value={callId}
+                        onChange={(e) => setCallId(e.target.value)}
                         fullWidth
 
                     />
@@ -76,7 +75,9 @@ export default function JoinWithCode(props) {
                     </Button>
 
                     <Link to="/Join">
-                        <Button onClick={() => callUser(idToCall)} color="primary">
+                        <Button onClick={() => {
+                                // callUser(idToCall)
+                            }} color="primary">
                             Join
                         </Button>
                     </Link>

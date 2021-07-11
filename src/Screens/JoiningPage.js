@@ -59,13 +59,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function JoiningPage(props) {
     const classes = useStyles(props);
-    const { config, setConfig, name, myVideo } = useContext(SocketContext);
+    const { config, setConfig, name, myVideo, callId, callUser } = useContext(SocketContext);
     // setAudio(true);
     useEffect(() => {
         console.log("after setting ref");
         setConfig({ audio: true, video: true });
     }, [])
-
+    console.log("call id is ", callId)
     return (
         <Grid
             container
@@ -114,7 +114,11 @@ export default function JoiningPage(props) {
                         <VideocamIcon />
                     </IconButton>
                     <Link to="/connect">
-                        <Button variant="contained" color="primary">
+                        <Button variant="contained" onClick={()=> {
+                            console.log("attempt to call", callId)
+                            if(callId) 
+                                callUser(callId);
+                        }} color="primary">
                             Join
                         </Button>
                     </Link>

@@ -1,14 +1,13 @@
 import React, { createContext, useState, useRef, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
+import { Button } from '@material-ui/core';
 
 const SocketContext = createContext();
 
 const socket = io('http://localhost:5000');
 
-
 const ContextProvider = ({ children }) => {
-    console.log("context hosting")
     const [stream, setStream] = useState(null);
     const [me, setMe] = useState('placeholder text');
     const [call, setCall] = useState(null);
@@ -18,17 +17,20 @@ const ContextProvider = ({ children }) => {
     // const confi = {}
     // const [video, setVideo] = useState(false);
     const [config, setConfig] = useState({});  //for video and audio
-
+    const [callId, setCallId] = useState('');
     const myVideo = useRef();
     const userVideo = useRef();
     const connectionRef = useRef();
 
-    socket.on('me', (id) => { console.log("update me id", id); setMe(id); });
-
-    socket.on('calluser', ({ from, name: callerName, signal }) => {
+    useEffect(()=>{
+        console.log("context hosting in useeffect")
+        socket.on('me', (id) => { console.log("update me id", id); setMe(id); });
+        socket.on('calluser', ({ from, name: callerName, signal }) => {
         console.log("CallUser function");
         setCall({ isReceivedCall: true, from, name: callerName, signal })
-    });
+});
+    }, []);
+
     useEffect(() => {
         if (!myVideo.current) {
             console.log("useeffect without ref")
@@ -63,7 +65,7 @@ const ContextProvider = ({ children }) => {
     }
 
     const callUser = (id) => {
-        console.log("call User");
+        console.log("call User, stream ready ? ", stream);
         const peer = new Peer({ initiator: true, trickle: false, stream });
 
         peer.on('signal', (data) => {
@@ -110,8 +112,8 @@ const ContextProvider = ({ children }) => {
             me,
             config,
             setConfig,
-            // setVideo,
-            // setAudio,
+            callId,
+            setCallId,
             callUser,
             leaveCall,
             answerCall,

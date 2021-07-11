@@ -121,6 +121,7 @@ function VideoBox(props) {
                     )
                 }
                 {
+                    // class = "c1 c2"
                     stream && (
                         <Grid
                             className={classes.MyVideo_container, (!callAccepted ? classes.fullScreen : classes.halfScreen)}>
