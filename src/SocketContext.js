@@ -19,10 +19,7 @@ const ContextProvider = ({ children }) => {
     const [showJoin, setShowJoin] = useState(true);
     // const confi = {}
     // const [video, setVideo] = useState(false);
-    const [config, setConfig] = useState({
-        audio: true,
-        video: true
-    });  //for video and audio
+    const [config, setConfig] = useState({});  //for video and audio
     const [callId, setCallId] = useState('');
     const myVideo = useRef();
     const userVideo = useRef();
@@ -81,7 +78,7 @@ const ContextProvider = ({ children }) => {
             callUser(joinee.id, joinee.name)
         })
         socket.on('calluser', ({ from, name: callerName, signal }) => {
-            console.log("CallUser function");
+            console.log("CallUser function", from, callerName);
             // setCall({ isReceivedCall: true, from, name: callerName, signal })
             answerCall(from, callerName, signal);
         });
@@ -91,6 +88,7 @@ const ContextProvider = ({ children }) => {
                 let user = prevRoom.find(r => r.id === data.id);
                 let room = prevRoom.filter(r => r.id !== data.id);
                 if(user){
+                    user.name = data.name;
                     user.peer.signal(data.signal);
                     room.push(user);
                 }
@@ -138,7 +136,6 @@ const ContextProvider = ({ children }) => {
         console.log("my stream updated", stream)
         // stream = stream;
     }, [stream])
-    const myStream = stream;
     const callUser = (id, name) => {
         console.log("call User, stream ready ? ", stream);
         const peer = new Peer({ initiator: true, trickle: false, stream });
@@ -168,6 +165,7 @@ const ContextProvider = ({ children }) => {
         const user = {
             id, name, peer, stream: null
         }
+        console.log("call and update room")
         setRoom(prevRoom => [...prevRoom, user]);
     }
     console.log("stream after each render", stream)
@@ -202,7 +200,7 @@ const ContextProvider = ({ children }) => {
             setConfig,
             callId,
             setCallId,
-            callUser,
+            // callUser,
             leaveCall,
             // answerCall,
             connectToServer,

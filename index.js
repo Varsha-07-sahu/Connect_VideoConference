@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
 
     socket.on("calluser", ({ userToCall, signalData }) => {
         const from = socket.id, name = socket.name;
-        console.log("calling user");
+        console.log("calling user", from, name);
         io.to(userToCall).emit("calluser", { signal: signalData, from, name });
     });
 
