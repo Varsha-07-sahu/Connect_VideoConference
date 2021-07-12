@@ -18,22 +18,37 @@ app.get("/", (req, res) => {
 });
 
 io.on('connection', (socket) => {
-
-    socket.emit('me', socket.id);
-
+    socket.name = socket.request._query.name
+    const createRoom = socket.request._query.createRoom
+    console.log("connection request from ", socket.name);
+    // socket.emit('me', socket.id);
+    if(createRoom){
+        console.log("admin request to create room");
+        let completeId = "room:"+socket.id;
+        socket.join(completeId);
+        console.log("create room", completeId)
+    }
+    socket.on('joinRoom', (roomId) => {
+        let completeId = "room:"+roomId;
+        console.log("join room, ", completeId);
+        socket.join(completeId);
+        socket.to(completeId).emit("newUserJoined", {id: socket.id, name: socket.name});
+        // socket.to(completeId).emit("newUserJoined", socket.id);
+    })
     socket.on('disconnect', () => {
         console.log("disconnecting");
         socket.broadcast.emit("callended");
     });
 
-    socket.on("calluser", ({ userToCall, signalData, from, name }) => {
+    socket.on("calluser", ({ userToCall, signalData }) => {
+        const from = socket.id, name = socket.name;
         console.log("calling user");
         io.to(userToCall).emit("calluser", { signal: signalData, from, name });
     });
 
     socket.on("answercall", (data) => {
-        console.log("call accepted by receiver ")
-        io.to(data.to).emit("callaccepted", data.signal);
+        console.log("call accepted by receiver: ", socket.name)
+        io.to(data.to).emit("callaccepted", {signal: data.signal, name: socket.name, id: socket.id});
     });
 });
 

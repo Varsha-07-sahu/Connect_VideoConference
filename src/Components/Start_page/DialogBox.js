@@ -68,7 +68,8 @@ export default function DialogBox(props) {
                 <DialogContent>
                     <DialogContentText>
                         Hello {name},<br />
-                        Copy this id and send it to people that you want to connect with.
+                        Copy this id and send it to people that you want to connect with. <br />
+                        {me || "Loading..."}
 
                     </DialogContentText>
 

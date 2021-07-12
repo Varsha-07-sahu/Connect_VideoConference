@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Welcome_page(props) {
     console.log("welcome page constructor")
-    const { name, setName } = useContext(SocketContext);
+    const { name, setName, connectToServer } = useContext(SocketContext);
     // useEffect(() => {
     //     console.log("check1");
     // }, [])
@@ -91,6 +91,7 @@ export default function Welcome_page(props) {
 
     const [openCallInfo, setOpenCallInfo] = useState(false);
     const openCallInfoHandler = () => {
+        connectToServer(name, true);
         setOpenCallInfo(true);
     }
     const closeCallInfoHandler = () => {
