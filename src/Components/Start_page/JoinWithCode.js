@@ -33,17 +33,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function JoinWithCode(props) {
     const classes = useStyles(props);
+    const { name, connectToServer, callId, setCallId, joinRoom } = useContext(SocketContext);
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
+        connectToServer(name);
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
     };
-    const { name, callUser, callId, setCallId } = useContext(SocketContext);
 
+    const handleJoin = () => {
+        // joinRoom();
+    }
 
     return (
         <Box className={classes.button}>
@@ -75,9 +79,7 @@ export default function JoinWithCode(props) {
                     </Button>
 
                     <Link to="/Join">
-                        <Button onClick={() => {
-                            // callUser(idToCall)
-                        }} color="primary">
+                        <Button onClick={handleJoin} color="primary">
                             Join
                         </Button>
                     </Link>

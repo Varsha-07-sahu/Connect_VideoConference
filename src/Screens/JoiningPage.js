@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function JoiningPage(props) {
     const classes = useStyles(props);
-    const { config, setConfig, name, myVideo, callId, callUser } = useContext(SocketContext);
+    const { config, setConfig, name, myVideo, callId, joinRoom } = useContext(SocketContext);
     // setAudio(true);
     useEffect(() => {
         console.log("after setting ref");
@@ -117,7 +117,7 @@ export default function JoiningPage(props) {
                         <Button variant="contained" onClick={() => {
                             console.log("attempt to call", callId)
                             if (callId)
-                                callUser(callId);
+                                joinRoom()
                         }} color="primary">
                             Join
                         </Button>

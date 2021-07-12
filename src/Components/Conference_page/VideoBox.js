@@ -103,11 +103,11 @@ const useStyles = makeStyles((theme) => ({
 
 function VideoBox(props) {
     const classes = useStyles(props);
-    const { name, callAccepted, setConfig, myVideo, userVideo, callEnded, stream, call, me, leaveCall, callUser, setName } = useContext(SocketContext);
-    useEffect(() => {
-        console.log("after setting ref");
-        setConfig({ audio: true, video: true });
-    }, [])
+    const { name, callAccepted, myVideo, userVideo, callEnded, stream, call, room, leaveCall } = useContext(SocketContext);
+    // useEffect(() => {
+    //     console.log("after setting ref");
+    //     setConfig({ audio: true, video: true });
+    // }, [])
     const handleCallEnd = () => {
         // console.log("history ", props.history);
         props.history.push("/")
@@ -127,6 +127,8 @@ function VideoBox(props) {
         setOpenCallInfo(false);
     }
 
+    console.log("at video box", room);
+
     return (
         <Grid
             container
@@ -142,7 +144,7 @@ function VideoBox(props) {
                 className={classes.Video_Container}
             >
                 {
-                    callAccepted && !callEnded && (
+                    room.length > 0 && (
                         <Grid className={classes.SenderVideo_container}>
 
                             <video playsInline height="100%" width="100%" ref={userVideo} autoPlay className={classes.video}></video>
@@ -154,11 +156,11 @@ function VideoBox(props) {
                     )
                 }
                 {
-                    stream && (
+                    stream && room.length == 0 && (
                         <Grid
                             className={classes.MyVideo_container + " " + (!callAccepted || callEnded ? classes.fullScreen : classes.halfScreen)}>
 
-                            <video muted ref={myVideo} height="100%" width="100%" autoPlay className={classes.video}></video>
+                            <video ref={myVideo} muted={true} height="100%" width="100%" autoPlay className={classes.video}></video>
 
                             <Grid>
                                 <Typography color="white" variant="h5" gutterBottom>{"You"}</Typography>
@@ -198,6 +200,7 @@ function VideoBox(props) {
 
                     {call != null && call.isReceivedCall && !callAccepted && (
                         <Notification_toAcceptCall
+                            user={call.name}
                             openPermissionBox
                             onAdmitUser={onAdmitUserHandler} />
                     )}

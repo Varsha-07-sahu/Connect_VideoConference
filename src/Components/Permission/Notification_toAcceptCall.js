@@ -41,10 +41,10 @@ export default function Notification_toAcceptCall(props) {
                 onClose={props.onAdmitUser}
                 aria-labelledby="UserAcceptPermission"
             >
-                <DialogTitle id="responsive-dialog-title">{"User is Calling..."}</DialogTitle>
+                <DialogTitle id="responsive-dialog-title">{props.user || "User"} is Calling...</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        {"user"} want permission to join the call.
+                        {props.user || "user"} want permission to join the call.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
