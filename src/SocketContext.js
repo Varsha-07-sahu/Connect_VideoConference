@@ -46,6 +46,14 @@ const ContextProvider = ({ children }) => {
 
     }, [config]);
 
+    const room = [
+        {
+            "name": "You",
+            "id": "1",
+            "stream": { myVideo },
+        }
+    ]
+
     const answerCall = () => {
         setCallAccepted(true);
         console.log("answer call request")
@@ -114,6 +122,7 @@ const ContextProvider = ({ children }) => {
             userVideo,
             stream,
             name,
+            room,
             setName,
             callEnded,
             me,
