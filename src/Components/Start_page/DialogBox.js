@@ -63,7 +63,7 @@ export default function DialogBox(props) {
             //     </IconButton>
             // )} */}
 
-            <Dialog open={props.openCallInfo} onClose={props.onClosingDialogBox()} aria-labelledby="form-dialog-title">
+            <Dialog open={props.openCallInfo} onClose={props.onClosingDialogBox} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Here's is the ID to your meeting </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -81,12 +81,12 @@ export default function DialogBox(props) {
 
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={props.onClosingDialogBox()} color="primary">
+                    <Button onClick={props.onClosingDialogBox} color="primary">
                         Cancel
                     </Button>
                     {showJoin && (
                         <Link to="/Join">
-                            <Button color="primary" onChange={handleJoin && props.onClosingDialogBox()}>
+                            <Button color="primary" onChange={handleJoin && props.onClosingDialogBox}>
                                 Join
                             </Button>
                         </Link>
