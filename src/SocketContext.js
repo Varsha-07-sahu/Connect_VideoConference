@@ -25,6 +25,7 @@ const ContextProvider = ({ children }) => {
     const userVideo = useRef();
     const connectionRef = useRef();
     const [room, setRoom] = useState([]);
+    const[chats, setChats] = useState([]);
 
     const joinRoom = () =>{
         if(socket && callId){
@@ -73,6 +74,7 @@ const ContextProvider = ({ children }) => {
         socket.off("newUserJoined");
         socket.off("calluser");
         socket.off("callaccepted");
+        socket.off("receiveMessage");
         socket.on("newUserJoined", (joinee)=>{
             console.log("new user joined", joinee);
             callUser(joinee.id, joinee.name)
@@ -95,6 +97,14 @@ const ContextProvider = ({ children }) => {
                 return room;
             });
         });
+        socket.on("receiveMessage" , data => {
+            // console.log("received message", data);
+            setChats(prevChats => [...prevChats, {...data, time: new Date(), }])
+        })
+    }
+    const sendMessage = msg => {
+        socket.emit("sendMessage", {roomId: callId, msg});
+        setChats(prevChats => [...prevChats, {from: me, name, msg, time: new Date(), }])
     }
     const answerCall = (id, name, signal) => {
         setCallAccepted(true);
@@ -205,7 +215,9 @@ const ContextProvider = ({ children }) => {
             // answerCall,
             connectToServer,
             room,
-            joinRoom
+            joinRoom,
+            chats,
+            sendMessage
         }}>
             {children}
         </SocketContext.Provider>

@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
 
 function VideoBox(props) {
     const classes = useStyles(props);
-    const { name, callAccepted, myVideo, userVideo, callEnded, stream, call, room, leaveCall } = useContext(SocketContext);
+    const { sendMessage, callAccepted, myVideo, userVideo, callEnded, stream, call, room, leaveCall, chats } = useContext(SocketContext);
     // useEffect(() => {
     //     console.log("after setting ref");
     //     setConfig({ audio: true, video: true });
@@ -128,7 +128,11 @@ function VideoBox(props) {
         setOpenCallInfo(false);
     }
 
-    console.log("at video box", room);
+    useEffect(()=>{
+        sendMessage("hello everyone")
+    }, [])
+
+    console.log("chats", chats);
 
     return (
         <Grid
