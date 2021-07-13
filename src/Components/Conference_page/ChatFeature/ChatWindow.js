@@ -22,12 +22,13 @@ const useStyles = makeStyles((theme) => ({
     },
     body: {
         backgroundColor: "white",
-        overflow: "scroll",
+        overflow: "auto",
         height: "90%",
         width: "100%",
     },
     input_footer: {
-        padding: '2px 4px',
+        height: "10%",
+        // padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
         width: "100%",
@@ -60,16 +61,6 @@ export default function ChatWindow(props) {
             </List>
             <Grid className={classes.inputFooter}>
 
-                {/* <TextField id="filled-basic" label="Type your message" variant="filled" >
-                </TextField>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    endIcon={<SendIcon />}
-                >
-                    Send
-                </Button> */}
                 <Paper component="form" className={classes.input_footer}>
 
                     <InputBase

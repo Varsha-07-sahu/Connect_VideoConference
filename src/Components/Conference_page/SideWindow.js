@@ -32,10 +32,6 @@ const useStyles = makeStyles((theme) => ({
         height: "90%",
         width: "100%",
     },
-    title: {
-        padding: "10px",
-        margin: "10px",
-    },
     titleRoot: {
         width: '100%',
         maxWidth: 360,
@@ -84,9 +80,7 @@ export default function SideWindow(props) {
                                     {props.sideBox === 1 && "In-call messages"}
                                     {props.sideBox === 2 && "People in call"}
                                 </Typography>
-
                             </React.Fragment>} />
-
                     </ListItem>
                 </List>
                 <Grid>
