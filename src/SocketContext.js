@@ -107,8 +107,11 @@ const ContextProvider = ({ children }) => {
 
         peer.on('stream', (currentStream) => {
             console.log("received stream")
-            userVideo.current.srcObject = currentStream;
-            userVideo.current.muted = true;
+            if (userVideo.current) {
+                userVideo.current.srcObject = currentStream;
+                userVideo.current.muted = true;
+            }
+
             setRoom(prevRoom => {
                 let user = prevRoom.find(r => r.id === id);
                 let room = prevRoom.filter(r => r.id !== id);
@@ -183,6 +186,54 @@ const ContextProvider = ({ children }) => {
 
     }
 
+    const chats = [
+        {
+            "name": "Varsha",
+            "time": new Date(),
+            "message": "Hello amigos!",
+        },
+        {
+            "name": "Ruchika",
+            "time": new Date(),
+            "message": "Hi, What's up?",
+        },
+        {
+            "name": "Varsha",
+            "time": new Date(),
+            "message": "All good :)",
+        },
+        {
+            "name": "Himanshu",
+            "time": new Date(),
+            "message": "Did you finish the assignment",
+        },
+        {
+            "name": "Varsha",
+            "time": new Date(),
+            "message": "No, not yet.",
+        },
+        {
+            "name": "Varsha",
+            "time": new Date(),
+            "message": "Hello amigos!",
+        },
+        {
+            "name": "Ruchika",
+            "time": new Date(),
+            "message": "Hi, What's up?",
+        },
+        {
+            "name": "Varsha",
+            "time": new Date(),
+            "message": "All good :)",
+        },
+        {
+            "name": "Himanshu",
+            "time": new Date(),
+            "message": "Did you finish the assignment",
+        }]
+
+
     return (
         <SocketContext.Provider value={{
             call,
@@ -192,6 +243,7 @@ const ContextProvider = ({ children }) => {
             stream,
             name,
             room,
+            chats,
             setName,
             callEnded,
             me,

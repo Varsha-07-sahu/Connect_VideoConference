@@ -45,13 +45,41 @@ export default function OptionFooter(props) {
         props.history.push("/")
         leaveCall()
     }
+    const chatWindowHandler = () => {
+        if (props.sideBox === 0) {
+            props.onOpenChatWindow();
+        }
+        else if (props.sideBox === 1) {
+            props.onCloseSideWindow();
+        }
+        else {    //props.sideBox=2
+            props.onOpenChatWindow();
+        }
+    }
 
-    const openChatWindowHandler = () => {
-        props.onChatWindow(true);
+    const peopleWindowHandler = () => {
+        if (props.sideBox === 0) {
+            props.onOpenPeopleWindow();
+        }
+        else if (props.sideBox === 1) {
+            props.onOpenPeopleWindow();
+        }
+        else {    //props.sideBox=2
+            props.onCloseSideWindow();
+        }
     }
-    const openParticipantsWindowHandler = () => {
-        props.onParticipantsWindow(true);
-    }
+    // const openChatWindowHandler = () => {
+    //     if (props.chatWindow)
+    //         props.onChatWindow(true);
+    //     else
+    //         props.onChatWindow(false);
+    // }
+    // const openParticipantsWindowHandler = () => {
+    //     if (props.participantsWindow)
+    //         props.onParticipantsWindow(true);
+    //     else
+    //         props.onParticipantsWindow(false);
+    // }
 
     return (
         <Grid
@@ -80,11 +108,11 @@ export default function OptionFooter(props) {
             </Grid>
             <Grid className={classes.Chat_participants_optionBox}>
 
-                <IconButton color="primary" onClick={openChatWindowHandler} className={classes.button} aria-label="Turn Video off">
+                <IconButton color="primary" onClick={chatWindowHandler} className={classes.button} aria-label="Turn Video off">
                     <ChatIcon style={{ fontSize: 32 }} />
                 </IconButton>
 
-                <IconButton color="secondary" onClick={openParticipantsWindowHandler} className={classes.button} aria-label="End Call" >
+                <IconButton color="secondary" onClick={peopleWindowHandler} className={classes.button} aria-label="End Call" >
                     <GroupIcon style={{ fontSize: 32 }} />
                 </IconButton>
 

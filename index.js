@@ -4,7 +4,7 @@ const cors = require("cors");
 
 const io = require("socket.io")(server, {
     cors: {
-        origin: "*",
+        origin: "*",    //allowing all server
         methods: ["GET", "POST"]
     }
 });
@@ -22,17 +22,17 @@ io.on('connection', (socket) => {
     const createRoom = socket.request._query.createRoom
     console.log("connection request from ", socket.name);
     // socket.emit('me', socket.id);
-    if(createRoom){
+    if (createRoom) {
         console.log("admin request to create room");
-        let completeId = "room:"+socket.id;
+        let completeId = "room:" + socket.id;
         socket.join(completeId);
         console.log("create room", completeId)
     }
     socket.on('joinRoom', (roomId) => {
-        let completeId = "room:"+roomId;
+        let completeId = "room:" + roomId;
         console.log("join room, ", completeId);
         socket.join(completeId);
-        socket.to(completeId).emit("newUserJoined", {id: socket.id, name: socket.name});
+        socket.to(completeId).emit("newUserJoined", { id: socket.id, name: socket.name });
         // socket.to(completeId).emit("newUserJoined", socket.id);
     })
     socket.on('disconnect', () => {
@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
 
     socket.on("answercall", (data) => {
         console.log("call accepted by receiver: ", socket.name)
-        io.to(data.to).emit("callaccepted", {signal: data.signal, name: socket.name, id: socket.id});
+        io.to(data.to).emit("callaccepted", { signal: data.signal, name: socket.name, id: socket.id });
     });
 });
 

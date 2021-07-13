@@ -1,5 +1,6 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,11 +25,13 @@ export default function UserVideoContainer(props) {
     return (
         <Grid className={classes.root}>
             <Grid className={classes.video}>
-                <video muted ref={props.video} height="100%" width="100%" autoPlay className={classes.video}></video>
+                <video muted ref={props.video} height="100%" width="100%" autoPlay className={classes.video}>
+                </video>
             </Grid>
             <Grid className={classes.name}>
                 props.name
             </Grid>
+
         </Grid>
     );
 }
