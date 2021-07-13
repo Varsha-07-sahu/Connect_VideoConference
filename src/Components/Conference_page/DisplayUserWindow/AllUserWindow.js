@@ -11,6 +11,9 @@ import Avatar from '@material-ui/core/Avatar';
 import { Typography } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
 import React from "react";
+// import { Button } from "@material-ui/core";
+import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle';
+// import { IconButton } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -83,10 +86,11 @@ export default function AllUserWindow(props) {
                                 >
                                     {name + "(You)" + " "}
                                 </Typography>
-
+                                <IconButton onClick={() => console.log("change pin")}>
+                                    <PersonPinCircleIcon />
+                                </IconButton>
                             </React.Fragment>} />
                     </ListItem>
-
 
                     {room.map((content) => (
                         <PersonBox

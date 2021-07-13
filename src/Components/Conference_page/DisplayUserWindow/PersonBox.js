@@ -5,9 +5,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import { Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
 import { Divider } from '@material-ui/core';
+import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle';
+import { IconButton } from '@material-ui/core';
+// import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     item: {
@@ -47,10 +50,13 @@ export default function PersonBox(props) {
                     >
                         {props.name + " "}
                     </Typography>
-
+                    <IconButton onClick={() => console.log("pinned")}>
+                        <PersonPinCircleIcon />
+                    </IconButton>
                 </React.Fragment>} />
 
         </ListItem>
+
 
     );
 }

@@ -12,15 +12,22 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "8px",
         height: "100%",
         width: "100%",
+        // margin: "10%"
     },
     video: {
         height: "90%",
-        width: "100%",
+        width: "auto",
+        objectFit: "cover",
     },
     name: {
         height: "10%",
-        width: "100%",
-    }
+        // width: "100%",
+        // backgroundColor: "red",
+
+    },
+    nameContent: {
+        color: "white",
+    },
 }));
 
 export default function UserVideoContainer(props) {
@@ -39,11 +46,11 @@ export default function UserVideoContainer(props) {
     const mainVideRef = useRef();
     return (
         <Grid className={classes.root}>
-            <Grid className={classes.video}>
+            <Grid justifyContent="center" className={classes.video}>
                 <video muted ref={mainVideRef} height="100%" width="100%" autoPlay className={classes.video} />
             </Grid>
             <Grid className={classes.name}>
-                <Typography>
+                <Typography variant="body" className={classes.nameContent}>
                     {props.name}
                 </Typography>
             </Grid>

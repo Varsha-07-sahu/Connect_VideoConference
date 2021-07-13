@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { SocketContext } from "../../SocketContext";
 import UserVideoContainer from "./UserVideoContainer";
 import { useEffect } from "react";
+import VideoCard from "./VideoCard";
 import { Typography } from "@material-ui/core";
 
 
@@ -35,7 +36,7 @@ export default function VideoContainer(props) {
             {stream && (
                 <Grid
                     className={classes.MyVideo_container}>
-                    <UserVideoContainer
+                    <VideoCard
                         name={name}
                         id={"1"}
                         userId={props.userId}

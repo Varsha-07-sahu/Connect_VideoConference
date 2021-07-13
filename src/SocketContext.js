@@ -6,7 +6,7 @@ import { Button } from '@material-ui/core';
 const SocketContext = createContext();
 
 let socket;
-const hostURL = 'http://localhost:5000';
+const hostURL = '/';
 // const socket = io('http://localhost:5000');
 
 const ContextProvider = ({ children }) => {
@@ -103,9 +103,9 @@ const ContextProvider = ({ children }) => {
         })
         socket.on("userLeft", userId => {
             let user = room.find(conn => conn.id === userId);
-            if(user){
+            if (user) {
                 console.log("user left", user.name);
-                if(user.peer)
+                if (user.peer)
                     user.peer.destroy();
             }
             setRoom(prevRoom => prevRoom.filter(conn => conn.id !== userId));
@@ -193,18 +193,18 @@ const ContextProvider = ({ children }) => {
         setRoom(prevRoom => [...prevRoom, user]);
     }
     console.log("stream after each render", stream)
-    
+
     const leaveCall = () => {
         console.log("leave call");
 
         setCallEnded(true);
         if (connectionRef.current)
             connectionRef.current.destroy();
-        
+
         socket.emit("leaveRoom", callId);
 
         room.forEach(conn => {
-            if(conn.peer)
+            if (conn.peer)
                 conn.peer.destroy();
         })
 

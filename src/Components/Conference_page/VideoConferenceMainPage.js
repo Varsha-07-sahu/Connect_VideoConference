@@ -8,7 +8,7 @@ import { SocketContext } from "../../SocketContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: "#b8e3f5",
+        backgroundColor: "black",
         height: '100vh',
     },
     mainBody: {
@@ -58,48 +58,12 @@ export default function VideoConferenceMainPage(props) {
         setSideBox(0);
     }
 
-
-    // const [chatWindow, setChatWindow] = useState(false);
-    // const [participantsWindow, setParticipantsWindow] = useState(false);
-    // const ChatWindowHandler = (state) => {
-    //     if (state) {
-    //         setParticipantsWindow(false);
-    //         setChatWindow(true);
-    //         console.log("chat=true, people=false");
-    //     }
-    //     else {
-    //         setChatWindow(false);
-    //         // setParticipantsWindow(true);
-    //         console.log("chat=false");
-    //     }
-    //     console.log("chatWindow change");
-    // }
-
-    // const participantsWindowHandler = (state) => {
-    //     if (state) {
-    //         setChatWindow(false);
-    //         setParticipantsWindow(true);
-    //         console.log("chat=false, people=true");
-    //     }
-    //     else {
-    //         setParticipantsWindow(false);
-    //         // setChatWindow(true);
-    //         console.log("people=false");
-    //     }
-    //     console.log("ParticipantsWindow change");
-    // }
-    // console.log("inside main page chatWindow=", chatWindow, " , peopleWindow=", participantsWindow);
-
-    // useEffect(() => {
-    //     console.log("updated in main page chatWindow=", chatWindow, " , peopleWindow=", participantsWindow);
-    // }, [chatWindow, participantsWindow]);
     const [mainUserId, setMainUserId] = useState(me);
     return (
         <Grid className={classes.root}
             container
             direction="column">
             <Grid className={classes.mainBody} container direction="row">
-                {/* + " " + (!chatWindow && !participantsWindow) ? classes.fullScreen : classes.halfScreen} */}
                 <Grid className={classes.videoContainer + " " + ((sideBox === 0) ? classes.fullScreen : classes.halfScreen)} >
                     <VideoContainer userId={mainUserId} />
                 </Grid>
