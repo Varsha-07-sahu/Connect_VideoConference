@@ -9,14 +9,14 @@ import PopUpGetId from './Components/Start_page/PopUpGetId';
 import DialogBox from './Components/Start_page/DialogBox';
 import { Route } from 'react-router-dom';
 import Notification_toAcceptCall from './Components/Permission/Notification_toAcceptCall';
+import VideoConferenceMainPage from './Components/Conference_page/VideoConferenceMainPage';
 
 
 
 function App() {
   return (
-    // <Notification_toAcceptCall></Notification_toAcceptCall>
-    // <DialogBox></DialogBox>
-    // <PopUpGetId></PopUpGetId>
+    // <VideoConferenceMainPage />
+
     <div>
       <Route path="/" exact >
         <Welcome_page />
@@ -31,16 +31,14 @@ function App() {
       </Route>
 
       <Route exact path="/Connect">
-        <VideoBox />
+        <VideoConferenceMainPage />
       </Route>
       {/* 
       <Route path="*">
         Error 404
       </Route> */}
     </div>
-    // <SignInSide></SignInSide>
-    // 
-    // <JoiningPage />
+
 
   );
 }

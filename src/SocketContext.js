@@ -27,8 +27,8 @@ const ContextProvider = ({ children }) => {
     const [room, setRoom] = useState([]);
     const[chats, setChats] = useState([]);
 
-    const joinRoom = () =>{
-        if(socket && callId){
+    const joinRoom = () => {
+        if (socket && callId) {
             socket.emit("joinRoom", callId);
         }
     }
@@ -36,7 +36,7 @@ const ContextProvider = ({ children }) => {
         console.log("context hosting in useeffect")
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("Room update", room)
     }, [room]);
 
@@ -48,7 +48,7 @@ const ContextProvider = ({ children }) => {
         navigator.mediaDevices.getUserMedia(config)
             .then((currentStream) => {
                 setStream(currentStream);
-                if(myVideo.current)
+                if (myVideo.current)
                     myVideo.current.srcObject = currentStream;
                 console.log("update ref src stream")
                 // myVideo.current.muted = true;
@@ -56,21 +56,21 @@ const ContextProvider = ({ children }) => {
 
     }, [config]);
 
-    const connectToServer = (name, createRoom = false) =>{
+    const connectToServer = (name, createRoom = false) => {
         console.log("connect to server")
-        if(socket){
+        if (socket) {
             socket.disconnect();
         }
         socket = io(hostURL, {
-            query: "name="+name+(createRoom ? "&createRoom=true" : ""),
+            query: "name=" + name + (createRoom ? "&createRoom=true" : ""),
         })
-        socket.on('connect', ()=>{
+        socket.on('connect', () => {
             console.log("connection to server established this is the socket id", socket.id)
             setMe(socket.id);
         })
         // socket.on('me', (id) => { console.log("update me id", id); setMe(id); });
     }
-    if(socket){
+    if (socket) {
         socket.off("newUserJoined");
         socket.off("calluser");
         socket.off("callaccepted");
@@ -89,7 +89,7 @@ const ContextProvider = ({ children }) => {
             setRoom(prevRoom => {
                 let user = prevRoom.find(r => r.id === data.id);
                 let room = prevRoom.filter(r => r.id !== data.id);
-                if(user){
+                if (user) {
                     user.name = data.name;
                     user.peer.signal(data.signal);
                     room.push(user);
@@ -102,9 +102,10 @@ const ContextProvider = ({ children }) => {
             setChats(prevChats => [...prevChats, {...data, time: new Date(), }])
         })
     }
-    const sendMessage = msg => {
-        socket.emit("sendMessage", {roomId: callId, msg});
-        setChats(prevChats => [...prevChats, {from: me, name, msg, time: new Date(), }])
+    const sendMessage = message => {
+        let roomId = callId || me;
+        socket.emit("sendMessage", {roomId, message});
+        setChats(prevChats => [...prevChats, {from: me, name, message, time: new Date(), }])
     }
     const answerCall = (id, name, signal) => {
         setCallAccepted(true);
@@ -117,12 +118,15 @@ const ContextProvider = ({ children }) => {
 
         peer.on('stream', (currentStream) => {
             console.log("received stream")
-            userVideo.current.srcObject = currentStream;
-            userVideo.current.muted = true;
+            if (userVideo.current) {
+                userVideo.current.srcObject = currentStream;
+                userVideo.current.muted = true;
+            }
+
             setRoom(prevRoom => {
                 let user = prevRoom.find(r => r.id === id);
                 let room = prevRoom.filter(r => r.id !== id);
-                if(user){
+                if (user) {
                     user.stream = currentStream;
                     room.push(user);
                 }
@@ -142,7 +146,7 @@ const ContextProvider = ({ children }) => {
         }
         setRoom(prevRoom => [...prevRoom, user]);
     }
-    useEffect(()=>{
+    useEffect(() => {
         console.log("my stream updated", stream)
         // stream = stream;
     }, [stream])
@@ -156,12 +160,12 @@ const ContextProvider = ({ children }) => {
 
         peer.on('stream', (currentStream) => {
             console.log("received stream");
-            if(userVideo.current)
+            if (userVideo.current)
                 userVideo.current.srcObject = currentStream;
             setRoom(prevRoom => {
                 let user = prevRoom.find(r => r.id === id);
                 let room = prevRoom.filter(r => r.id !== id);
-                if(user){
+                if (user) {
                     user.stream = stream;
                     room.push(user);
                 }
@@ -193,6 +197,54 @@ const ContextProvider = ({ children }) => {
 
     }
 
+    // const chats = [
+    //     {
+    //         "name": "Varsha",
+    //         "time": new Date(),
+    //         "message": "Hello amigos!",
+    //     },
+    //     {
+    //         "name": "Ruchika",
+    //         "time": new Date(),
+    //         "message": "Hi, What's up?",
+    //     },
+    //     {
+    //         "name": "Varsha",
+    //         "time": new Date(),
+    //         "message": "All good :)",
+    //     },
+    //     {
+    //         "name": "Himanshu",
+    //         "time": new Date(),
+    //         "message": "Did you finish the assignment",
+    //     },
+    //     {
+    //         "name": "Varsha",
+    //         "time": new Date(),
+    //         "message": "No, not yet.",
+    //     },
+    //     {
+    //         "name": "Varsha",
+    //         "time": new Date(),
+    //         "message": "Hello amigos!",
+    //     },
+    //     {
+    //         "name": "Ruchika",
+    //         "time": new Date(),
+    //         "message": "Hi, What's up?",
+    //     },
+    //     {
+    //         "name": "Varsha",
+    //         "time": new Date(),
+    //         "message": "All good :)",
+    //     },
+    //     {
+    //         "name": "Himanshu",
+    //         "time": new Date(),
+    //         "message": "Did you finish the assignment",
+    //     }]
+
+
     return (
         <SocketContext.Provider value={{
             call,
@@ -201,6 +253,7 @@ const ContextProvider = ({ children }) => {
             userVideo,
             stream,
             name,
+            room,
             setName,
             callEnded,
             me,
