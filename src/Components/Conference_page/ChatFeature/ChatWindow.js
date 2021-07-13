@@ -51,15 +51,15 @@ export default function ChatWindow(props) {
     const { chats, sendMessage } = useContext(SocketContext);
     const [message, setMessage] = useState("");
     // console.log("in chat window chats", chats);
-    const handleMessageSend = () =>{
-        if(!message.trim()){
+    const handleMessageSend = () => {
+        if (!message.trim()) {
             return;
         }
         sendMessage(message.trim());
         setMessage("");
     }
     const handleKeyUp = (e) => {
-        if(e.key === "Enter" || e.keyCode === 13){
+        if (e.key === "Enter" || e.keyCode === 13) {
             handleMessageSend();
         }
     }
@@ -75,9 +75,6 @@ export default function ChatWindow(props) {
             </List>
             <Grid className={classes.inputFooter}>
 
-<<<<<<< HEAD
-                <Paper component="form" className={classes.input_footer}>
-=======
                 {/* <TextField id="filled-basic" label="Type your message" variant="filled" >
                 </TextField>
                 <Button
@@ -89,7 +86,6 @@ export default function ChatWindow(props) {
                     Send
                 </Button> */}
                 <Paper className={classes.input_footer}>
->>>>>>> 73b6ac33d902323f24b4372cfa7480068099afd0
 
                     <InputBase
                         autoFocus="true"
