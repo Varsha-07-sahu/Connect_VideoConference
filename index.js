@@ -1,4 +1,5 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
 const server = require("http").createServer(app);
 const cors = require("cors");
 
@@ -10,12 +11,11 @@ const io = require("socket.io")(server, {
 });
 
 app.use(cors());
+app.use(express.static('build'));
 
 const PORT = process.env.PORT || 5000;
 
-app.get("/", (req, res) => {
-    res.send('Server is running. ');
-});
+
 
 const getRoomId = (id) => {
     return "room:" + id;
@@ -43,8 +43,8 @@ io.on('connection', (socket) => {
         console.log("disconnecting", socket.name);
         socket.broadcast.emit("userLeft", socket.id);
     });
-    socket.on("leaveRoom", (roomId)=>{
-        if(!roomId) return;
+    socket.on("leaveRoom", (roomId) => {
+        if (!roomId) return;
         let completeId = getRoomId(roomId);
         socket.to(completeId).emit("userLeft", socket.id);
         socket.leave(completeId);
@@ -61,10 +61,14 @@ io.on('connection', (socket) => {
     });
 
     socket.on("sendMessage", data => {
-        if(!data)   return;
+        if (!data) return;
         const completeId = getRoomId(data.roomId);
-        socket.to(completeId).emit("receiveMessage", {message: data.message, from: socket.id, name: socket.name});
+        socket.to(completeId).emit("receiveMessage", { message: data.message, from: socket.id, name: socket.name });
     })
 });
 
 server.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+
+app.get("*", (req, res) => {
+    res.sendFile(__dirname + "/build/index.html");
+});
