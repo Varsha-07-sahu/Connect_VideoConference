@@ -38,6 +38,7 @@ export default function VideoContainer(props) {
                     <UserVideoContainer
                         name={name}
                         id={"1"}
+                        userId={props.userId}
                         video={myVideo} />
                     {
                         console.log("my vidoe ref=", myVideo)

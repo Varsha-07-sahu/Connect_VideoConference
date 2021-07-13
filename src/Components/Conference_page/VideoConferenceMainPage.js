@@ -1,9 +1,10 @@
 import { Grid } from "@material-ui/core";
 import OptionFooter from "./OptionFooter";
 import { makeStyles } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import VideoContainer from "./VideoContainer";
 import SideWindow from "./SideWindow";
+import { SocketContext } from "../../SocketContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 export default function VideoConferenceMainPage(props) {
     const classes = useStyles(props);
     const [sideBox, setSideBox] = useState(0);
+    const { me } = useContext(SocketContext);
 
     // 0 : chat=false && people=false
     // 1 : chat= true && people=false
@@ -91,7 +93,7 @@ export default function VideoConferenceMainPage(props) {
     // useEffect(() => {
     //     console.log("updated in main page chatWindow=", chatWindow, " , peopleWindow=", participantsWindow);
     // }, [chatWindow, participantsWindow]);
-
+    const [mainUserId, setMainUserId] = useState(me);
     return (
         <Grid className={classes.root}
             container
@@ -99,7 +101,7 @@ export default function VideoConferenceMainPage(props) {
             <Grid className={classes.mainBody} container direction="row">
                 {/* + " " + (!chatWindow && !participantsWindow) ? classes.fullScreen : classes.halfScreen} */}
                 <Grid className={classes.videoContainer + " " + ((sideBox === 0) ? classes.fullScreen : classes.halfScreen)} >
-                    <VideoContainer />
+                    <VideoContainer userId={mainUserId} />
                 </Grid>
                 {sideBox != 0 && (
                     <Grid className={classes.sideWindow}>

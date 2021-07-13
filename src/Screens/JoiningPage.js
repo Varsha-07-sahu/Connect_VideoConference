@@ -9,7 +9,7 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import IconButton from '@material-ui/core/IconButton';
 import { Button } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { SocketContext } from "../SocketContext";
 import { Avatar } from "@material-ui/core";
 import PersonIcon from '@material-ui/icons/Person';
@@ -58,9 +58,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function JoiningPage(props) {
+    const myVideo = useRef();
     const classes = useStyles(props);
-    const { config, setConfig, name, myVideo, callId, joinRoom } = useContext(SocketContext);
+
+    const { config, setConfig, stream, name, callId, joinRoom } = useContext(SocketContext);
     // setAudio(true);
+
+    useEffect(() => {
+        myVideo.current.srcObject = stream;
+    }, [stream])
+
     useEffect(() => {
         console.log("after setting ref");
         setConfig({ audio: true, video: true });

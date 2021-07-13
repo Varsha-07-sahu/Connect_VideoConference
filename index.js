@@ -52,9 +52,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on("sendMessage", data => {
-        if(!data)   return;
-        const completeId = "room:"+data.roomId;
-        socket.to(completeId).emit("receiveMessage", {message: data.message, from: socket.id, name: socket.name});
+        console.log("receievd message", data);
+        if (!data) return;
+        const completeId = "room:" + data.roomId;
+        console.log("emit message");
+        socket.to(completeId).emit("receiveMessage", { message: data.message, from: socket.id, name: socket.name });
+
     })
 });
 
