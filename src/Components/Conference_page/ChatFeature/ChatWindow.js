@@ -22,12 +22,13 @@ const useStyles = makeStyles((theme) => ({
     },
     body: {
         backgroundColor: "white",
-        overflow: "scroll",
+        overflow: "auto",
         height: "90%",
         width: "100%",
     },
     input_footer: {
-        padding: '2px 4px',
+        height: "10%",
+        // padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
         width: "100%",
@@ -50,15 +51,15 @@ export default function ChatWindow(props) {
     const { chats, sendMessage } = useContext(SocketContext);
     const [message, setMessage] = useState("");
     // console.log("in chat window chats", chats);
-    const handleMessageSend = () =>{
-        if(!message.trim()){
+    const handleMessageSend = () => {
+        if (!message.trim()) {
             return;
         }
         sendMessage(message.trim());
         setMessage("");
     }
     const handleKeyUp = (e) => {
-        if(e.key === "Enter" || e.keyCode === 13){
+        if (e.key === "Enter" || e.keyCode === 13) {
             handleMessageSend();
         }
     }

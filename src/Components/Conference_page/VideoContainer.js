@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { SocketContext } from "../../SocketContext";
 import UserVideoContainer from "./UserVideoContainer";
 import { useEffect } from "react";
+import { Typography } from "@material-ui/core";
 
 
 
@@ -14,41 +15,51 @@ const useStyles = makeStyles((theme) => ({
         height: "100%",
         width: "100%",
     },
+    MyVideo_container: {
+        // padding: "5px",
+        height: "100%",
+        width: "100%",
+    }
 }));
 
 
 export default function VideoContainer(props) {
     const classes = useStyles(props);
-    const { room, stream, setConfig, callAccepted, callEnded, sendMessage } = useContext(SocketContext);
+    const { room, name, myVideo, stream, setConfig, callAccepted, callEnded } = useContext(SocketContext);
 
-    useEffect(() => {
-        console.log("after setting ref");
-        sendMessage("hello everyone")
-        // setConfig({ audio: true, video: true });
-    }, [])
+
 
     return (
 
         <Grid className={classes.root}>
-            {/* {stream && (
+            {stream && (
                 <Grid
-                    className={classes.MyVideo_container + " " + (!callAccepted || callEnded ? classes.fullScreen : classes.halfScreen)}>
-                    <Grid>
+                    className={classes.MyVideo_container}>
+                    <UserVideoContainer
+                        name={name}
+                        id={"1"}
+                        userId={props.userId}
+                        video={myVideo} />
+                    {
+                        console.log("my vidoe ref=", myVideo)
+                    }
+                    {/* <Grid>
+                        {console.log("entered in video")}
                         <video muted ref={myVideo} height="100%" width="100%" autoPlay className={classes.video}></video>
                     </Grid>
                     <Grid>
                         <Typography color="white" variant="h5" gutterBottom>{"You"}</Typography>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
-            )} */}
+            )}
             {console.log(room[0])}
-
+            {/* 
             {room.map((content) => (
                 <UserVideoContainer
                     name={content.name}
                     id={content.id}
                     video={content.stream} />
-            ))}
+            ))} */}
         </Grid>
     )
 }

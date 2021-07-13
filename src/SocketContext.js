@@ -21,11 +21,11 @@ const ContextProvider = ({ children }) => {
     // const [video, setVideo] = useState(false);
     const [config, setConfig] = useState({});  //for video and audio
     const [callId, setCallId] = useState('');
-    const myVideo = useRef();
-    const userVideo = useRef();
+    // const myVideo = useRef();
+    // const userVideo = useRef();
     const connectionRef = useRef();
     const [room, setRoom] = useState([]);
-    const[chats, setChats] = useState([]);
+    const [chats, setChats] = useState([]);
 
     const joinRoom = () => {
         if (socket && callId) {
@@ -42,14 +42,14 @@ const ContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (!config.audio && !config.video) {
-            console.log("useeffect without ref", myVideo.current)
+            // console.log("useeffect without ref", myVideo.current)
             return;
         }
         navigator.mediaDevices.getUserMedia(config)
             .then((currentStream) => {
                 setStream(currentStream);
-                if (myVideo.current)
-                    myVideo.current.srcObject = currentStream;
+                // if (myVideo.current)
+                // myVideo.current.srcObject = currentStream;
                 console.log("update ref src stream")
                 // myVideo.current.muted = true;
             });
@@ -75,7 +75,7 @@ const ContextProvider = ({ children }) => {
         socket.off("calluser");
         socket.off("callaccepted");
         socket.off("receiveMessage");
-        socket.on("newUserJoined", (joinee)=>{
+        socket.on("newUserJoined", (joinee) => {
             console.log("new user joined", joinee);
             callUser(joinee.id, joinee.name)
         })
@@ -97,9 +97,9 @@ const ContextProvider = ({ children }) => {
                 return room;
             });
         });
-        socket.on("receiveMessage" , data => {
-            // console.log("received message", data);
-            setChats(prevChats => [...prevChats, {...data, time: new Date(), }])
+        socket.on("receiveMessage", data => {
+            console.log("received message", data);
+            setChats(prevChats => [...prevChats, { ...data, time: new Date(), }])
         })
         socket.on("userLeft", userId => {
             let user = room.find(conn => conn.id === userId);
@@ -113,8 +113,9 @@ const ContextProvider = ({ children }) => {
     }
     const sendMessage = message => {
         let roomId = callId || me;
-        socket.emit("sendMessage", {roomId, message});
-        setChats(prevChats => [...prevChats, {from: me, name, message, time: new Date(), }])
+        socket.emit("sendMessage", { roomId, message });
+        setChats(prevChats => [...prevChats, { from: me, name, message, time: new Date(), }]);
+        console.log("Sending message");
     }
     const answerCall = (id, name, signal) => {
         setCallAccepted(true);
@@ -126,11 +127,11 @@ const ContextProvider = ({ children }) => {
         });
 
         peer.on('stream', (currentStream) => {
-            console.log("received stream")
-            if (userVideo.current) {
-                userVideo.current.srcObject = currentStream;
-                userVideo.current.muted = true;
-            }
+            // console.log("received stream")
+            // if (userVideo.current) {
+            //     userVideo.current.srcObject = currentStream;
+            //     userVideo.current.muted = true;
+            // }
 
             setRoom(prevRoom => {
                 let user = prevRoom.find(r => r.id === id);
@@ -169,8 +170,8 @@ const ContextProvider = ({ children }) => {
 
         peer.on('stream', (currentStream) => {
             console.log("received stream");
-            if (userVideo.current)
-                userVideo.current.srcObject = currentStream;
+            // if (userVideo.current)
+            //     userVideo.current.srcObject = currentStream;
             setRoom(prevRoom => {
                 let user = prevRoom.find(r => r.id === id);
                 let room = prevRoom.filter(r => r.id !== id);
@@ -214,8 +215,6 @@ const ContextProvider = ({ children }) => {
         <SocketContext.Provider value={{
             call,
             callAccepted,
-            myVideo,
-            userVideo,
             stream,
             name,
             room,
