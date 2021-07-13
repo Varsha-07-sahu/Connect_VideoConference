@@ -1,7 +1,7 @@
 import { Grid, IconButton, List } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { useContext } from "react";
-import { SocketContext } from "C:/Users/ASUS/Desktop/connect_project/src/SocketContext.js";
+import { SocketContext } from "../../../SocketContext";
 import Paper from '@material-ui/core/Paper';
 import PersonBox from "./PersonBox";
 import ListItem from '@material-ui/core/ListItem';
