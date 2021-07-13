@@ -1,11 +1,11 @@
 import { Grid, IconButton, List } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import MessageBox from "./MessageBox";
 import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
-import { SocketContext } from "C:/Users/ASUS/Desktop/connect_project/src/SocketContext.js";
+import { SocketContext } from "../../../SocketContext";
 import Paper from '@material-ui/core/Paper';
 import SendIcon from '@material-ui/icons/Send';
 import InputBase from '@material-ui/core/InputBase';
@@ -48,7 +48,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChatWindow(props) {
     const classes = useStyles(props);
-    const { chats } = useContext(SocketContext);
+    const { chats, sendMessage } = useContext(SocketContext);
+    const [message, setMessage] = useState("");
+    // console.log("in chat window chats", chats);
+    const handleMessageSend = () =>{
+        if(!message.trim()){
+            return;
+        }
+        sendMessage(message.trim());
+        setMessage("");
+    }
+    const handleKeyUp = (e) => {
+        if(e.key === "Enter" || e.keyCode === 13){
+            handleMessageSend();
+        }
+    }
     return (
         <Grid className={classes.root}>
             <List container direction="column" className={classes.body}>
@@ -61,13 +75,31 @@ export default function ChatWindow(props) {
             </List>
             <Grid className={classes.inputFooter}>
 
+<<<<<<< HEAD
                 <Paper component="form" className={classes.input_footer}>
+=======
+                {/* <TextField id="filled-basic" label="Type your message" variant="filled" >
+                </TextField>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    endIcon={<SendIcon />}
+                >
+                    Send
+                </Button> */}
+                <Paper className={classes.input_footer}>
+>>>>>>> 73b6ac33d902323f24b4372cfa7480068099afd0
 
                     <InputBase
+                        autoFocus="true"
                         className={classes.input}
                         placeholder="Type your message"
+                        value={message}
+                        onKeyUp={handleKeyUp}
+                        onChange={(e) => setMessage(e.target.value)}
                     />
-                    <IconButton type="submit" className={classes.iconButton} aria-label="send">
+                    <IconButton onClick={handleMessageSend} className={classes.iconButton}>
                         <SendIcon color="primary" />
                     </IconButton>
 

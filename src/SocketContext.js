@@ -25,6 +25,7 @@ const ContextProvider = ({ children }) => {
     const userVideo = useRef();
     const connectionRef = useRef();
     const [room, setRoom] = useState([]);
+    const[chats, setChats] = useState([]);
 
     const joinRoom = () => {
         if (socket && callId) {
@@ -73,7 +74,8 @@ const ContextProvider = ({ children }) => {
         socket.off("newUserJoined");
         socket.off("calluser");
         socket.off("callaccepted");
-        socket.on("newUserJoined", (joinee) => {
+        socket.off("receiveMessage");
+        socket.on("newUserJoined", (joinee)=>{
             console.log("new user joined", joinee);
             callUser(joinee.id, joinee.name)
         })
@@ -95,6 +97,15 @@ const ContextProvider = ({ children }) => {
                 return room;
             });
         });
+        socket.on("receiveMessage" , data => {
+            // console.log("received message", data);
+            setChats(prevChats => [...prevChats, {...data, time: new Date(), }])
+        })
+    }
+    const sendMessage = message => {
+        let roomId = callId || me;
+        socket.emit("sendMessage", {roomId, message});
+        setChats(prevChats => [...prevChats, {from: me, name, message, time: new Date(), }])
     }
     const answerCall = (id, name, signal) => {
         setCallAccepted(true);
@@ -186,52 +197,52 @@ const ContextProvider = ({ children }) => {
 
     }
 
-    const chats = [
-        {
-            "name": "Varsha",
-            "time": new Date(),
-            "message": "Hello amigos!",
-        },
-        {
-            "name": "Ruchika",
-            "time": new Date(),
-            "message": "Hi, What's up?",
-        },
-        {
-            "name": "Varsha",
-            "time": new Date(),
-            "message": "All good :)",
-        },
-        {
-            "name": "Himanshu",
-            "time": new Date(),
-            "message": "Did you finish the assignment",
-        },
-        {
-            "name": "Varsha",
-            "time": new Date(),
-            "message": "No, not yet.",
-        },
-        {
-            "name": "Varsha",
-            "time": new Date(),
-            "message": "Hello amigos!",
-        },
-        {
-            "name": "Ruchika",
-            "time": new Date(),
-            "message": "Hi, What's up?",
-        },
-        {
-            "name": "Varsha",
-            "time": new Date(),
-            "message": "All good :)",
-        },
-        {
-            "name": "Himanshu",
-            "time": new Date(),
-            "message": "Did you finish the assignment",
-        }]
+    // const chats = [
+    //     {
+    //         "name": "Varsha",
+    //         "time": new Date(),
+    //         "message": "Hello amigos!",
+    //     },
+    //     {
+    //         "name": "Ruchika",
+    //         "time": new Date(),
+    //         "message": "Hi, What's up?",
+    //     },
+    //     {
+    //         "name": "Varsha",
+    //         "time": new Date(),
+    //         "message": "All good :)",
+    //     },
+    //     {
+    //         "name": "Himanshu",
+    //         "time": new Date(),
+    //         "message": "Did you finish the assignment",
+    //     },
+    //     {
+    //         "name": "Varsha",
+    //         "time": new Date(),
+    //         "message": "No, not yet.",
+    //     },
+    //     {
+    //         "name": "Varsha",
+    //         "time": new Date(),
+    //         "message": "Hello amigos!",
+    //     },
+    //     {
+    //         "name": "Ruchika",
+    //         "time": new Date(),
+    //         "message": "Hi, What's up?",
+    //     },
+    //     {
+    //         "name": "Varsha",
+    //         "time": new Date(),
+    //         "message": "All good :)",
+    //     },
+    //     {
+    //         "name": "Himanshu",
+    //         "time": new Date(),
+    //         "message": "Did you finish the assignment",
+    //     }]
 
 
     return (
@@ -243,7 +254,6 @@ const ContextProvider = ({ children }) => {
             stream,
             name,
             room,
-            chats,
             setName,
             callEnded,
             me,
@@ -258,7 +268,9 @@ const ContextProvider = ({ children }) => {
             // answerCall,
             connectToServer,
             room,
-            joinRoom
+            joinRoom,
+            chats,
+            sendMessage
         }}>
             {children}
         </SocketContext.Provider>

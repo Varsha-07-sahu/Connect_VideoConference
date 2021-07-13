@@ -25,9 +25,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function VideoContainer(props) {
     const classes = useStyles(props);
+<<<<<<< HEAD
     const { room, name, myVideo, stream, setConfig, callAccepted, callEnded } = useContext(SocketContext);
 
 
+=======
+    const { room, stream, setConfig, callAccepted, callEnded, sendMessage } = useContext(SocketContext);
+
+    useEffect(() => {
+        console.log("after setting ref");
+        sendMessage("hello everyone")
+        // setConfig({ audio: true, video: true });
+    }, [])
+>>>>>>> 73b6ac33d902323f24b4372cfa7480068099afd0
 
     return (
 

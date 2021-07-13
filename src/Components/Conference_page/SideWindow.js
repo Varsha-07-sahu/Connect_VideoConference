@@ -5,7 +5,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import React from "react";
 import { Divider } from "@material-ui/core";
-import { SocketContext } from "C:/Users/ASUS/Desktop/connect_project/src/SocketContext.js";
+import { SocketContext } from "../../SocketContext";
 import Paper from '@material-ui/core/Paper';
 import SendIcon from '@material-ui/icons/Send';
 import InputBase from '@material-ui/core/InputBase';

@@ -50,6 +50,12 @@ io.on('connection', (socket) => {
         console.log("call accepted by receiver: ", socket.name)
         io.to(data.to).emit("callaccepted", { signal: data.signal, name: socket.name, id: socket.id });
     });
+
+    socket.on("sendMessage", data => {
+        if(!data)   return;
+        const completeId = "room:"+data.roomId;
+        socket.to(completeId).emit("receiveMessage", {message: data.message, from: socket.id, name: socket.name});
+    })
 });
 
 server.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
