@@ -17,6 +17,10 @@ app.get("/", (req, res) => {
     res.send('Server is running. ');
 });
 
+const getRoomId = (id) => {
+    return "room:" + id;
+}
+
 io.on('connection', (socket) => {
     socket.name = socket.request._query.name
     const createRoom = socket.request._query.createRoom
@@ -24,22 +28,27 @@ io.on('connection', (socket) => {
     // socket.emit('me', socket.id);
     if (createRoom) {
         console.log("admin request to create room");
-        let completeId = "room:" + socket.id;
+        let completeId = getRoomId(socket.id);
         socket.join(completeId);
         console.log("create room", completeId)
     }
     socket.on('joinRoom', (roomId) => {
-        let completeId = "room:" + roomId;
+        let completeId = getRoomId(roomId);
         console.log("join room, ", completeId);
         socket.join(completeId);
         socket.to(completeId).emit("newUserJoined", { id: socket.id, name: socket.name });
         // socket.to(completeId).emit("newUserJoined", socket.id);
     })
     socket.on('disconnect', () => {
-        console.log("disconnecting");
-        socket.broadcast.emit("callended");
+        console.log("disconnecting", socket.name);
+        socket.broadcast.emit("userLeft", socket.id);
     });
-
+    socket.on("leaveRoom", (roomId)=>{
+        if(!roomId) return;
+        let completeId = getRoomId(roomId);
+        socket.to(completeId).emit("userLeft", socket.id);
+        socket.leave(completeId);
+    })
     socket.on("calluser", ({ userToCall, signalData }) => {
         const from = socket.id, name = socket.name;
         console.log("calling user", from, name);
@@ -53,7 +62,7 @@ io.on('connection', (socket) => {
 
     socket.on("sendMessage", data => {
         if(!data)   return;
-        const completeId = "room:"+data.roomId;
+        const completeId = getRoomId(data.roomId);
         socket.to(completeId).emit("receiveMessage", {message: data.message, from: socket.id, name: socket.name});
     })
 });

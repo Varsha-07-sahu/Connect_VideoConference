@@ -101,6 +101,15 @@ const ContextProvider = ({ children }) => {
             // console.log("received message", data);
             setChats(prevChats => [...prevChats, {...data, time: new Date(), }])
         })
+        socket.on("userLeft", userId => {
+            let user = room.find(conn => conn.id === userId);
+            if(user){
+                console.log("user left", user.name);
+                if(user.peer)
+                    user.peer.destroy();
+            }
+            setRoom(prevRoom => prevRoom.filter(conn => conn.id !== userId));
+        })
     }
     const sendMessage = message => {
         let roomId = callId || me;
@@ -183,66 +192,22 @@ const ContextProvider = ({ children }) => {
         setRoom(prevRoom => [...prevRoom, user]);
     }
     console.log("stream after each render", stream)
+    
     const leaveCall = () => {
         console.log("leave call");
 
         setCallEnded(true);
         if (connectionRef.current)
             connectionRef.current.destroy();
-        // peer.destroy([err]);
-        // window.location.reload();
-        // peer.on('close', () => {
-        //     console.log("connention close");
-        // });
+        
+        socket.emit("leaveRoom", callId);
+
+        room.forEach(conn => {
+            if(conn.peer)
+                conn.peer.destroy();
+        })
 
     }
-
-    // const chats = [
-    //     {
-    //         "name": "Varsha",
-    //         "time": new Date(),
-    //         "message": "Hello amigos!",
-    //     },
-    //     {
-    //         "name": "Ruchika",
-    //         "time": new Date(),
-    //         "message": "Hi, What's up?",
-    //     },
-    //     {
-    //         "name": "Varsha",
-    //         "time": new Date(),
-    //         "message": "All good :)",
-    //     },
-    //     {
-    //         "name": "Himanshu",
-    //         "time": new Date(),
-    //         "message": "Did you finish the assignment",
-    //     },
-    //     {
-    //         "name": "Varsha",
-    //         "time": new Date(),
-    //         "message": "No, not yet.",
-    //     },
-    //     {
-    //         "name": "Varsha",
-    //         "time": new Date(),
-    //         "message": "Hello amigos!",
-    //     },
-    //     {
-    //         "name": "Ruchika",
-    //         "time": new Date(),
-    //         "message": "Hi, What's up?",
-    //     },
-    //     {
-    //         "name": "Varsha",
-    //         "time": new Date(),
-    //         "message": "All good :)",
-    //     },
-    //     {
-    //         "name": "Himanshu",
-    //         "time": new Date(),
-    //         "message": "Did you finish the assignment",
-    //     }]
 
 
     return (

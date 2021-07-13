@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function OptionFooter(props) {
+function OptionFooter(props) {
     const classes = useStyles(props);
 
     const [openCallInfo, setOpenCallInfo] = useState(false);
@@ -125,3 +125,5 @@ export default function OptionFooter(props) {
         </Grid>
     );
 }
+
+export default withRouter(OptionFooter);
