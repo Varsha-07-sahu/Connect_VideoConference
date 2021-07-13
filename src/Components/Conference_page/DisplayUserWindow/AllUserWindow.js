@@ -92,12 +92,14 @@ export default function AllUserWindow(props) {
                             </React.Fragment>} />
                     </ListItem>
 
-                    {room.map((content) => (
-                        <PersonBox
-                            name={content.name} />
-                    ))}
-                </List>
-            </Grid>
-        </Grid>
+                    {
+                        room.map((content) => (
+                            <PersonBox
+                                name={content.name} />
+                        ))
+                    }
+                </List >
+            </Grid >
+        </Grid >
     );
 }

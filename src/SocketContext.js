@@ -193,7 +193,6 @@ const ContextProvider = ({ children }) => {
         setRoom(prevRoom => [...prevRoom, user]);
     }
     console.log("stream after each render", stream)
-
     const leaveCall = () => {
         console.log("leave call");
 
