@@ -96,7 +96,7 @@ export default function SideWindow(props) {
                     <ChatWindow />
                 )}
                 {props.sideBox === 2 && (
-                    <AllUserWindow />
+                    <AllUserWindow handlePinUser={props.handlePinUser} />
                 )}
                 {/* <AllUserWindow /> */}
             </Grid>

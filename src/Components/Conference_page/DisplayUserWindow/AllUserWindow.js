@@ -86,7 +86,7 @@ export default function AllUserWindow(props) {
                                 >
                                     {name + "(You)" + " "}
                                 </Typography>
-                                <IconButton onClick={() => console.log("change pin")}>
+                                <IconButton >
                                     <PersonPinCircleIcon />
                                 </IconButton>
                             </React.Fragment>} />
@@ -95,6 +95,7 @@ export default function AllUserWindow(props) {
                     {
                         room.map((content) => (
                             <PersonBox
+                                handlePinUser={()=>props.handlePinUser(content.id)}
                                 name={content.name} />
                         ))
                     }

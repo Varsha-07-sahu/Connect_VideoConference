@@ -26,9 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function VideoContainer(props) {
     const classes = useStyles(props);
-    const { room, name, myVideo, stream, setConfig, callAccepted, callEnded } = useContext(SocketContext);
-
-
+    const { room, stream, setConfig, callAccepted, callEnded } = useContext(SocketContext);
 
     return (
 
@@ -37,13 +35,8 @@ export default function VideoContainer(props) {
                 <Grid
                     className={classes.MyVideo_container}>
                     <VideoCard
-                        name={name}
-                        id={"1"}
                         userId={props.userId}
-                        video={myVideo} />
-                    {
-                        console.log("my vidoe ref=", myVideo)
-                    }
+                    />
                     {/* <Grid>
                         {console.log("entered in video")}
                         <video muted ref={myVideo} height="100%" width="100%" autoPlay className={classes.video}></video>

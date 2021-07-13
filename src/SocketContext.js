@@ -6,7 +6,8 @@ import { Button } from '@material-ui/core';
 const SocketContext = createContext();
 
 let socket;
-const hostURL = '/';
+// const hostURL = '/';
+const hostURL = 'http://localhost:5000';
 // const socket = io('http://localhost:5000');
 
 const ContextProvider = ({ children }) => {

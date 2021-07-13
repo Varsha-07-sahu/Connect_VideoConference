@@ -50,7 +50,7 @@ export default function PersonBox(props) {
                     >
                         {props.name + " "}
                     </Typography>
-                    <IconButton onClick={() => console.log("pinned")}>
+                    <IconButton onClick={props.handlePinUser}>
                         <PersonPinCircleIcon />
                     </IconButton>
                 </React.Fragment>} />

@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 // import { Grid, Typography } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import Divider from '@material-ui/core/Divider';
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SocketContext } from "../../SocketContext";
 import { useEffect, useRef } from "react";
 
@@ -31,16 +31,20 @@ const useStyles = makeStyles({
 
 export default function VideoCard(props) {
     const classes = useStyles(props);
-    const { stream, me, room } = useContext(SocketContext);
-
+    const { stream, me, room, name } = useContext(SocketContext);
+    const [username, setUsername] = useState(name);
     useEffect(() => {
         /// search corresponding stream for user id
+        console.log("main user id updated", props.userId)
         if (props.userId === me) {
             mainVideRef.current.srcObject = stream;
             return;
         }
         let user = room.find(r => r.id === props.userId);
-        if (user) mainVideRef.current.srcObject = user.stream;
+        if (user){
+            mainVideRef.current.srcObject = user.stream;
+            setUsername(user.name);
+        }
     }, [props.userId])
 
     const mainVideRef = useRef();
@@ -50,7 +54,7 @@ export default function VideoCard(props) {
             <CardContent>
                 <video muted ref={mainVideRef} height="100%" width="50%" autoPlay className={classes.video} />
                 <Typography variant="body2" component="p">
-                    {props.name}
+                    {username || "Anonymous"}
                 </Typography>
             </CardContent>
 

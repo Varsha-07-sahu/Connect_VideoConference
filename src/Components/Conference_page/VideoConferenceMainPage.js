@@ -59,6 +59,12 @@ export default function VideoConferenceMainPage(props) {
     }
 
     const [mainUserId, setMainUserId] = useState(me);
+
+    const handlePinUser = (userId) => {
+        console.log("handle Pin", userId);
+        setMainUserId(userId);
+    }
+
     return (
         <Grid className={classes.root}
             container
@@ -70,6 +76,7 @@ export default function VideoConferenceMainPage(props) {
                 {sideBox != 0 && (
                     <Grid className={classes.sideWindow}>
                         <SideWindow
+                            handlePinUser = {handlePinUser}
                             sideBox={sideBox}
                             onOpenChatWindow={openChatWindowHandler}
                             onOpenPeopleWindow={openPeopleWindowHandler}
