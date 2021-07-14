@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AllUserWindow(props) {
     const classes = useStyles(props);
-    const { room, name } = useContext(SocketContext);
+    const { room, name, me } = useContext(SocketContext);
     const avatar_letter = name.charAt(0);
     const size = room.length;
     return (
@@ -86,7 +86,7 @@ export default function AllUserWindow(props) {
                                 >
                                     {name + "(You)" + " "}
                                 </Typography>
-                                <IconButton >
+                                <IconButton onClick={() => props.handlePinUser(me)} >
                                     <PersonPinCircleIcon />
                                 </IconButton>
                             </React.Fragment>} />

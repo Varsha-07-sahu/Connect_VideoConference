@@ -46,7 +46,6 @@ export default function VideoContainer(props) {
                     </Grid> */}
                 </Grid>
             )}
-            {console.log(room[0])}
             {/* 
             {room.map((content) => (
                 <UserVideoContainer

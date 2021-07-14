@@ -36,15 +36,19 @@ export default function VideoCard(props) {
     useEffect(() => {
         /// search corresponding stream for user id
         console.log("main user id updated", props.userId)
-        if (props.userId === me) {
-            mainVideRef.current.srcObject = stream;
-            return;
-        }
         let user = room.find(r => r.id === props.userId);
         if (user){
             mainVideRef.current.srcObject = user.stream;
             setUsername(user.name);
         }
+        else if(props.userId === me){
+            console.log("display self video")
+            mainVideRef.current.srcObject = stream;
+            setUsername(name);
+        }
+        console.log("my stream", stream)
+        console.log("main stream", mainVideRef.current.srcObject)
+        console.log("room", room);
     }, [props.userId])
 
     const mainVideRef = useRef();
